@@ -58,9 +58,9 @@ int main(int argc,char* argv[])
         send(client_socket,buff,BUFF_SIZE,0);
 
     }
-
+    memset(buff,0,sizeof(buff));
+    close(client_socket);
     printf("Program End !\n");
-    //close(client_socket);
     return 0;
 
 
