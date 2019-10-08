@@ -14,9 +14,14 @@
 void *recv_func(void* c_socket){
     int* client_socket = (int*)c_socket;
     char buff[BUFF_SIZE];
+    int check;
     while(1){
-        recv(*client_socket,buff,BUFF_SIZE,0);
-        printf("Msg:%s\n",buff);
+        check =(int)recv(*client_socket,buff,BUFF_SIZE,0);
+        if(check == -1 || check == 0){
+            exit(-1);
+        }
+        else
+            printf("\t\tRecieve Msg:%s\n",buff);
     }
 }
 
@@ -50,19 +55,13 @@ int main(int argc,char* argv[])
 
 
     while(1){
-        //printf("Sending Msg :");
         scanf("%s",buff);
-        if( !strncmp(buff,"quit!",5)){
-            break;
-        }
         send(client_socket,buff,BUFF_SIZE,0);
+        if( !strncmp(buff,"quit!",5)){
+            close(client_socket);
+            exit(-1);
+        }
 
     }
-    memset(buff,0,sizeof(buff));
-    close(client_socket);
-    printf("Program End !\n");
-    return 0;
-
-
 
 }
